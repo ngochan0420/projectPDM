@@ -92,3 +92,68 @@ CREATE TABLE Decision (
                           FOREIGN KEY(ApplicationID) REFERENCES Application(ApplicationID)
                               ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+CREATE TABLE Application (
+    ApplicationID INT PRIMARY KEY,
+    ApplicantName VARCHAR(255)
+);
+
+CREATE TABLE LoanProduct (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(255) NOT NULL,
+    InterestRate DECIMAL(5,2), -- Ví dụ: 10.50%
+    MinTerm INT,
+    MaxTerm INT,
+    EligibilityRules TEXT
+);
+
+CREATE TABLE DocumentType (
+    DocTypeID INT PRIMARY KEY,
+    TypeName VARCHAR(255) NOT NULL,
+    Description TEXT
+);
+
+CREATE TABLE Document (
+    DocumentID INT PRIMARY KEY,
+    ApplicationID INT,
+    DocTypeID INT,
+    IsSupplied BOOLEAN,
+    SuppliedDate DATE,
+    FOREIGN KEY (ApplicationID) REFERENCES Application(ApplicationID),
+    FOREIGN KEY (DocTypeID) REFERENCES DocumentType(DocTypeID)
+);
+
+CREATE TABLE RequiresDocType (
+    ProductID INT,
+    DocTypeID INT,
+    isMandatory BOOLEAN,
+    PRIMARY KEY (ProductID, DocTypeID),
+    FOREIGN KEY (ProductID) REFERENCES LoanProduct(ProductID),
+    FOREIGN KEY (DocTypeID) REFERENCES DocumentType(DocTypeID)
+);
+
+CREATE TABLE Loan (
+    LoanID INT PRIMARY KEY,
+    ApplicationID INT UNIQUE, 
+    LoanAmount DECIMAL(15,2),
+    LoanDate DATE,
+    FOREIGN KEY (ApplicationID) REFERENCES Application(ApplicationID)
+);
+
+CREATE TABLE RepaymentSchedule (
+    LoanID INT,
+    InstallmentID INT,
+    DueDate DATE,
+    AmountDue DECIMAL(15,2),
+    Status VARCHAR(50),
+    PRIMARY KEY (LoanID, InstallmentID),
+    FOREIGN KEY (LoanID) REFERENCES Loan(LoanID)
+);
+
+CREATE TABLE Disbursement (
+    DisbursementID INT PRIMARY KEY,
+    LoanID INT,
+    DisbursementAmount DECIMAL(15,2),
+    DisbursementDate DATE,
+    FOREIGN KEY (LoanID) REFERENCES Loan(LoanID)
+);
