@@ -1,10 +1,6 @@
-
--- 6 -> 12
-
 -- ---------------------------------------------------------------------
 -- 6. List all customers and their applications, 
 -- including customers who have not submitted any applications.
---    Kỹ thuật: LEFT JOIN (outer join)
 -- ---------------------------------------------------------------------
 SELECT
     c.CustomerID,
