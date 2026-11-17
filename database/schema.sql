@@ -1,3 +1,7 @@
+DROP DATABASE IF EXISTS loandb;
+CREATE DATABASE loandb;
+USE loandb;
+
 CREATE TABLE Customer (
     CustomerID CHAR(4) NOT NULL PRIMARY KEY,
     FullName VARCHAR(100) NOT NULL,
