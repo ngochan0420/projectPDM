@@ -128,6 +128,9 @@ CREATE TABLE Document (
         ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
+CREATE INDEX idx_document_application_type_supplied
+    ON Document (ApplicationID, DocTypeID, IsSupplied);
+
 CREATE TABLE RequiresDocType (
     ProductID CHAR(4) NOT NULL,
     DocTypeID CHAR(4) NOT NULL,
