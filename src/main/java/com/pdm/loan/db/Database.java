@@ -53,7 +53,7 @@ public final class Database {
         }
     }
 
-    // ------------------------------------------------------------------ SELECT
+    // SELECT
 
     public static TableData query(String sql, Object... params) throws SQLException {
         try (Connection con = getConnection()) {
@@ -95,7 +95,7 @@ public final class Database {
         return t.isEmpty() ? null : t.rows().get(0)[0];
     }
 
-    // ------------------------------------------------ INSERT / UPDATE / DELETE
+    // INSERT / UPDATE / DELETE
 
     public static int update(String sql, Object... params) throws SQLException {
         try (Connection con = getConnection()) {
@@ -110,7 +110,7 @@ public final class Database {
         }
     }
 
-    // ------------------------------------------------------------- Transaction
+    // Transaction
 
     @FunctionalInterface
     public interface SqlWork<T> {

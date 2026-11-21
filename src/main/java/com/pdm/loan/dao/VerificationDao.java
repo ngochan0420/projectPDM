@@ -51,8 +51,18 @@ public class VerificationDao {
                     INSERT INTO VerificationStep
                         (StepID, ApplicationID, StepTypeID, EmployeeID, Result, VerificationDate, Comments)
                     VALUES (?, ?, ?, ?, NULL, NULL, NULL)""", stepId, applicationId, stepTypeId, employeeId);
-            return Database.update(con, "UPDATE Application SET Status = ? WHERE ApplicationID = ? AND Status = ?",
-                    ApplicationDao.IN_VERIFICATION, applicationId, ApplicationDao.SUBMITTED);
+
+            int updated = Database.update(con, """
+                    UPDATE Application
+                    SET Status = ?
+                    WHERE ApplicationID = ? AND Status = ?
+                    """, ApplicationDao.IN_VERIFICATION, applicationId, ApplicationDao.SUBMITTED);
+
+            if (updated != 1) {
+                throw new SQLException("Application does not exist or is not in Submitted status.");
+            }
+
+            return updated;
         });
     }
 
